@@ -1,4 +1,4 @@
-name: Nuclei Scanning for Login-Panel Templates
+name: Nuclei Scanning for Exposed-Panels Templates
 
 on:
   repository_dispatch:
@@ -13,9 +13,8 @@ jobs:
         with:
           repository: Pcoder7/recon-automation
           ref: main
-          path: recon_results
-          # For public repositories, the default token is sufficient.
-          # If recon-automation were private, include: token: ${{ secrets.PAT_TOKEN }}
+          path: .  # Check out into the root so "results" is available directly
+          # If recon-automation were private, add: token: ${{ secrets.PAT_TOKEN }}
 
       - name: Update & Install Dependencies
         run: |
@@ -25,15 +24,13 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.22'  # Adjust the version as needed
-          
+          go-version: '1.22'  # Adjust as needed
 
       - name: Install nuclei
         run: |
-          # Download and install nuclei (adjust version as needed)
           go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
           nuclei -ut
-          
+
       - name: Run Nuclei Scanning on Recon Results
         run: |
           mkdir -p nuclei_results
