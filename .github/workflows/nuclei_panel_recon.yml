@@ -39,7 +39,7 @@ jobs:
             domain=$(basename "$domain_dir")
             echo "Scanning $domain with nuclei for exposed-panels templates"
             if [ -f "$domain_dir/combined.txt" ]; then
-              nuclei -l "$domain_dir/combined.txt" -t ~/nuclei-templates/http/exposed-panels -o nuclei_results/"$domain".txt
+              nuclei -l "$domain_dir/live.txt" -t ~/nuclei-templates/http/exposed-panels -o nuclei_results/"$domain".txt
             else
               echo "combined.txt not found for $domain"
             fi
