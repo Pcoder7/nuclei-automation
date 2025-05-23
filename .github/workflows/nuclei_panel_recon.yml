@@ -38,8 +38,8 @@ jobs:
           for domain_dir in results/*; do
             domain=$(basename "$domain_dir")
             echo "Scanning $domain with nuclei for exposed-panels templates"
-            if [ -f "$domain_dir/combined.txt" ]; then
-              nuclei -l "$domain_dir/live.txt" -t ~/nuclei-templates/http/exposed-panels -t ~/nuclei-templates/http/default_logins   "$domain".txt
+            if [ -f "$domain_dir/all_resolved.txt" ]; then
+              cat "$domain_dir/live.txt" | awk -F'[ \t]+' '{print $1}' | nuclei -t ~/nuclei-templates/http/exposed-panels -t ~/nuclei-templates/http/default_logins -no-color -o "$domain".txt
             else
               echo "combined.txt not found for $domain"
             fi
